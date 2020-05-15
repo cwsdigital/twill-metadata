@@ -1,0 +1,25 @@
+{
+    "name": "cwsdigital/twill-metadata",
+    "authors": [
+        {
+            "name": "Chris Pymm",
+            "email": "chris@cwsdigital.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CwsDigital\\TwillMetadata\\TwillMetadataServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "CwsDigital\\TwillMetadata\\": "src/"
+        }
+    },
+    "require": {
+        "area17/twill": "^2.0"
+    }
+}
