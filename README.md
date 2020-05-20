@@ -1,4 +1,4 @@
-## Tiwll Metadata
+## Twill Metadata
 
 This package is a simple way to add editable SEO metadata to your twill models.  
 
@@ -15,7 +15,7 @@ publish config
 
 Add `use HasMetadata;` to your model.
 
-Add `$this->metadataFallbacks = [];` to your model.
+Add `public $metadataFallbacks = [];` to your model.
 
 In the Twill admin controller for the model, ensure the `metadata_card_type_options` and `metadata_og_type_options` are set in the `formData()` method.
 ```php

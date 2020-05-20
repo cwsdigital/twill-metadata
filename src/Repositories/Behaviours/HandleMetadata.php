@@ -19,15 +19,21 @@ trait HandleMetadata {
      * @param Model $object
      * @param array $fields
      */
-    public function afterSaveHandleMetadata(Model $object, array $fields)
+    public function beforeSaveHandleMetadata(Model $object, array $fields)
     {
-        // Due to the way twill handles adding data to VueX store
-        // metadata will come through in individual fields metadata[title]... not in an array
-        $fields = $this->getMetadataFields($fields);
+        //request has already been validated? OR should we do some validation here?
+        //$fields now contains an array of metadata fields !! process it!
+        $metadata = array_key_exists('metadata',$fields) ? $fields['metadata'] : null;
+        if( isset($metadata) && is_array($metadata) && !empty($metadata)) {
+            $metadata = $this->setFieldDefaults($object, $metadata);
+            $object->metadata()->update($metadata);
+        }
+    }
 
-        $fields = $this->setFieldDefaults($object, $fields);
-
-        $object->metadata()->update($fields);
+    //Metadata has already been saved, and attribute not valid on parent
+    public function prepareFieldsBeforeSaveHandleMetadata($object, $fields) {
+        unset($fields['metadata']);
+        return $fields;
     }
 
     /**
@@ -40,11 +46,8 @@ trait HandleMetadata {
     public function getFormFieldsHandleMetadata(Model $object, array $fields){
         //If the metadata object doesn't exist create it.  Every 'meta_describable' will need one entry.
         $metadata = $object->metadata ?? $object->metadata()->create();
-
         $metadata = $this->setFieldDefaults($object, $metadata);
-
         $fields['metadata'] = $metadata->attributesToArray();
-
         return $fields;
     }
 
@@ -55,17 +58,17 @@ trait HandleMetadata {
      * @param array $fields
      * @return array
      */
-    protected function getMetadataFields(array $fields) {
-        $metadataFields = [];
-        foreach ( $fields as $key => $value) {
-            if( $this->isMetadataField($key) ) {
-                // transform metadata[xxxx] to xxxx
-                $newKey = preg_replace('/'. $this->metadataFieldPrefix .'\[([^\]]*)\]/', '$1', $key);
-                $metadataFields[$newKey] = $value;
-            }
-        }
-        return $metadataFields;
-    }
+//    protected function getMetadataFields(array $fields) {
+//        $metadataFields = [];
+//        foreach ( $fields as $key => $value) {
+//            if( $this->isMetadataField($key) ) {
+//                // transform metadata[xxxx] to xxxx
+//                $newKey = preg_replace('/'. $this->metadataFieldPrefix .'\[([^\]]*)\]/', '$1', $key);
+//                $metadataFields[$newKey] = $value;
+//            }
+//        }
+//        return $metadataFields;
+//    }
 
     /**
      * Set default values on fields that require it
@@ -82,14 +85,6 @@ trait HandleMetadata {
             }
         }
         return $fields;
-    }
-
-    /**
-     * @param $key
-     * @return bool
-     */
-    protected function isMetadataField($key) {
-        return substr($key, 0, strlen($this->metadataFieldPrefix)) === $this->metadataFieldPrefix;
     }
 
 }

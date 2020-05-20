@@ -20,6 +20,6 @@
         }
     },
     "require": {
-        "area17/twill": "^2.0"
+        "area17/twill": "*"
     }
 }

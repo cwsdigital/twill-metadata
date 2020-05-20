@@ -20,18 +20,18 @@ class Metadata extends Model
     //
 
     // Return opengraph type id from content value
-    public static function og_type_id($type) {
-        $og_types = config('metadata.opengraph_type_options');
-        $key = array_search($type, array_column($og_types, 'content'));
-        return $og_types[$key]['value'];
-    }
-
-    //return card type id from content value
-    public static function card_type_id($type) {
-        $og_types = config('metadata.card_type_options');
-        $key = array_search($type, array_column($og_types, 'content'));
-        return $og_types[$key]['value'];
-    }
+//    public static function og_type_id($type) {
+//        $og_types = config('metadata.opengraph_type_options');
+//        $key = array_search($type, array_column($og_types, 'content'));
+//        return $og_types[$key]['value'];
+//    }
+//
+//    //return card type id from content value
+//    public static function card_type_id($type) {
+//        $og_types = config('metadata.card_type_options');
+//        $key = array_search($type, array_column($og_types, 'content'));
+//        return $og_types[$key]['value'];
+//    }
 
     public function meta_describable() {
         return $this->morphTo();
@@ -55,12 +55,12 @@ class Metadata extends Model
     {
         if (!empty($this->$column)) {
             switch( $column) {
-                case 'og_type':
-                    return $this->getOgTypeContent($this->$column);
-                    break;
-                case 'card_type':
-                    return $this->getCardTypeContent($this->$column);
-                    break;
+//                case 'og_type':
+//                    return $this->getOgTypeContent($this->$column);
+//                    break;
+//                case 'card_type':
+//                    return $this->getCardTypeContent($this->$column);
+//                    break;
                 default:
                     return $this->$column;
             }
@@ -81,20 +81,20 @@ class Metadata extends Model
     /*
      * Return the meta content value from given og_type id value
      */
-    protected function getOgTypeContent($id) {
-        $og_types = config('metadata.opengraph_type_options');
-        $key = array_search($id, array_column($og_types, 'value'));
-        return $og_types[$key]['content'];
-    }
-
-    /*
-     * Return the meta content value from given card_type id value
-     */
-    protected function getCardTypeContent($id) {
-        $og_types = config('metadata.card_type_options');
-        $key = array_search($id, array_column($og_types, 'value'));
-        return $og_types[$key]['content'];
-    }
+//    protected function getOgTypeContent($id) {
+//        $og_types = config('metadata.opengraph_type_options');
+//        $key = array_search($id, array_column($og_types, 'value'));
+//        return $og_types[$key]['content'];
+//    }
+//
+//    /*
+//     * Return the meta content value from given card_type id value
+//     */
+//    protected function getCardTypeContent($id) {
+//        $og_types = config('metadata.card_type_options');
+//        $key = array_search($id, array_column($og_types, 'value'));
+//        return $og_types[$key]['content'];
+//    }
 
 
     private function getTableColumns() {
