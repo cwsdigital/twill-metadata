@@ -51,6 +51,22 @@
         </x-formColumns>
 
 
+        @formField('checkbox', [
+        'name' => 'metadata[noindex]',
+        'label' => 'Tell search engines not to index this page (noindex).',
+        ])
+
+        @formField('checkbox', [
+        'name' => 'metadata[nofollow]',
+        'label' => 'Tell search engines not to follow links on this page (nofollow).',
+        ])
+
+
+        @formField('input', [
+        'name' => 'metadata[canonical_url]',
+        'label' => 'Canonical URL',
+        ])
+
 
     </x-formFieldset>
 

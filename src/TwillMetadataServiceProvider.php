@@ -31,11 +31,13 @@ class TwillMetadataServiceProvider extends ServiceProvider
         $this->extendBlade();
 
         $this->publishes([
-            __DIR__.'config/metadata.php' => config_path('metadata.php')
+            __DIR__.'/config/metadata.php' => config_path('metadata.php'),
+            __DIR__.'/config/seotools.php' => config_path('seotools.php')
         ], 'config');
     }
 
     private function extendBlade() {
-        Blade::include('twill-metadata::includes.metadata', 'metadata');
+        Blade::include('twill-metadata::includes.metadata-fields', 'metadataFields');
+        Blade::include('twill-metadata::includes.metadata-settings', 'metadataSettings');
     }
 }

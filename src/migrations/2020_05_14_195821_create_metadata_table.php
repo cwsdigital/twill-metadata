@@ -22,6 +22,9 @@ class CreateMetadataTable extends Migration
             $table->string('og_type')->nullable();
             $table->string('og_image')->nullable();
             $table->string('card_type')->nullable();
+            $table->boolean('noindex')->default(false);
+            $table->boolean('nofollow')->default(false);
+            $table->string('canonical_url')->nullable();
             $table->unsignedBigInteger('meta_describable_id');
             $table->string('meta_describable_type');
             $table->timestamps();

@@ -2,6 +2,7 @@
 
 namespace CwsDigital\TwillMetadata\Models;
 
+use A17\Twill\Repositories\SettingRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -16,45 +17,45 @@ class Metadata extends Model
         'og_description',
         'og_type',
         'card_type',
+        'noindex',
+        'nofollow',
+        'canonical_url',
     ];
-    //
 
-    // Return opengraph type id from content value
-    public static function og_type_id($type) {
-        $og_types = config('metadata.opengraph_type_options');
-        $key = array_search($type, array_column($og_types, 'content'));
-        return $og_types[$key]['value'];
-    }
-
-    //return card type id from content value
-    public static function card_type_id($type) {
-        $og_types = config('metadata.card_type_options');
-        $key = array_search($type, array_column($og_types, 'content'));
-        return $og_types[$key]['value'];
-    }
 
     public function meta_describable() {
         return $this->morphTo();
     }
 
-    //TODO - naming of this method?
-    public function full() {
-        $metadata = [];
-        $exclude = ['id', 'created_at', 'updated_at', 'meta_describable_id', 'meta_describable_type', 'og_image'];
-        $columns = array_diff($this->getTableColumns(), $exclude);
-        foreach($columns as $column){
-            $metadata[$column] = $this->field($column);
-        }
-
-        $metadata['image'] = $this->meta_describable->getSocialImageAttribute();
-
-        return $metadata;
-    }
+//    //TODO - naming of this method?
+//    public function full() {
+//        $metadata = [];
+//        $exclude = ['id', 'created_at', 'updated_at', 'meta_describable_id', 'meta_describable_type', 'og_image'];
+//        $columns = array_diff($this->getTableColumns(), $exclude);
+//        foreach($columns as $column){
+//            $metadata[$column] = $this->field($column);
+//        }
+//
+//        $metadata['image'] = $this->meta_describable->getSocialImageAttribute();
+//
+//        return $metadata;
+//    }
 
     public function field($column)
     {
+        switch($column) {
+            case 'og_image':
+                return $this->meta_describable->getSocialImageAttribute();
+                break;
+            case 'noindex':
+            case 'nofollow':
+                return $this->$column;
+                break;
+        }
+
         if (!empty($this->$column)) {
             switch( $column) {
+
                 case 'og_type':
                     return $this->getOgTypeContent($this->$column);
                     break;
@@ -70,8 +71,17 @@ class Metadata extends Model
     }
 
     protected function getFallbackValue($column) {
+        if( !array_key_exists($column, $this->fallbacks()) ) {
+            return;
+        }
+
         $fallback = $this->fallbacks()[$column];
-        return $this->meta_describable->$fallback;
+        if($column == 'title' || $column == 'og_title') {
+            $site_title = app(SettingRepository::class)->byKey('site_title', 'seo');
+            return strip_tags($this->meta_describable->$fallback) . ($site_title ? ' - '. $site_title : '');
+        } else {
+            return strip_tags($this->meta_describable->$fallback);
+        }
     }
 
     protected function fallbacks() {
@@ -84,7 +94,7 @@ class Metadata extends Model
     protected function getOgTypeContent($id) {
         $og_types = config('metadata.opengraph_type_options');
         $key = array_search($id, array_column($og_types, 'value'));
-        return $og_types[$key]['content'];
+        return $og_types[$key]['label'];
     }
 
     /*
@@ -93,7 +103,7 @@ class Metadata extends Model
     protected function getCardTypeContent($id) {
         $og_types = config('metadata.card_type_options');
         $key = array_search($id, array_column($og_types, 'value'));
-        return $og_types[$key]['content'];
+        return $og_types[$key]['label'];
     }
 
 

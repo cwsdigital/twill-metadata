@@ -3,6 +3,7 @@
 
 namespace CwsDigital\TwillMetadata\Models\Behaviours;
 
+use A17\Twill\Models\Setting;
 
 trait HasMetadata {
 
@@ -19,6 +20,11 @@ trait HasMetadata {
             return $this->getSpecifiedMetadataFallbackImage('og_image');
         } elseif ( $this->hasAnyImages() ) {
             return $this->getDefaultMetadataFallbackImage();
+        } else {
+            $media = Setting::firstWhere('key', 'default_social_image');
+            if($media) {
+                return $media->image('default_social_image', 'default');
+            }
         }
     }
 

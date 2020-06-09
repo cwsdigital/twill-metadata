@@ -6,7 +6,6 @@
             "email": "chris@cwsdigital.com"
         }
     ],
-    "minimum-stability": "dev",
     "extra": {
         "laravel": {
             "providers": [
@@ -20,6 +19,7 @@
         }
     },
     "require": {
-        "area17/twill": "^2.0"
+        "area17/twill": "^2.0",
+        "artesaos/seotools": "^0.17"
     }
 }
