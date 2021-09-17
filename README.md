@@ -55,7 +55,7 @@ In the admin 'form.blade.php' view add the metadata fieldset to the additional f
 @stop
 
 @section('fieldsets')
-    @metadata-fields
+    @metadataFields
 @stop
 ```
 
