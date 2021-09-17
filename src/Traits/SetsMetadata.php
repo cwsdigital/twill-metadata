@@ -11,10 +11,15 @@ trait SetsMetadata {
         $request = request();
 
         SEOTools::setTitle($metadata->field('title'));
-        SEOTools::setDescription($metadata->field('description'));
+        if( $metadata->field('description') ) {
+            SEOTools::setDescription($metadata->field('description'));
+        }
 
         SEOTools::opengraph()->setTitle($metadata->field('og_title'));
-        SEOTools::opengraph()->setDescription($metadata->field('og_description'));
+
+        if($metadata->field('og_description')) {
+            SEOTools::opengraph()->setDescription($metadata->field('og_description'));
+        }
 
         SEOTools::opengraph()->addProperty('type', $metadata->field('og_type'));
 

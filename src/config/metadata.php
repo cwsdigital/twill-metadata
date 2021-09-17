@@ -4,9 +4,9 @@ return [
 
     'fallbacks' => [
         'title' => 'title',
-        'description' => '',
+        'description' => false,
         'og_title' => 'title',
-        'og_description' => '',
+        'og_description' => false,
         'og_type' => 'metadataDefaultOgType',
         'card_type' => 'metadataDefaultCardType',
     ],
