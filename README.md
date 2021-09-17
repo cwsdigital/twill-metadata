@@ -13,11 +13,13 @@ $ artisan migrate
 
 ### In your model
 
-Set your model to use the `HasMetadata` trait, and add the public property `$metadataFallbacks`.
+Set your model to use the `HasMetadata` trait, and add the public property `$metadataFallbacks`. 
+Your model also need to use the HasMedias trait in order to allow for OpenGraph images.
 ```php
 class Page extends Model {
 
-    use HasMetadata;
+    use HasMetadata,
+        HasMedias;
 
     public $metadataFallbacks = [];             
 ...

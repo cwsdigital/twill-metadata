@@ -71,7 +71,11 @@ trait HasMetadata {
 
         // Add the default metadata from config into the $mediasParams array
         // by default adds in an 'og_image' role with a 'default' crop
-        $this->mediasParams = array_merge($this->mediasParams, config('metadata.mediasParams') );
+        if( isset($this->mediasParams) && is_Array($this->mediasParams)) {
+            $this->mediasParams = array_merge($this->mediasParams, config('metadata.mediasParams'));
+        } else {
+            $this->mediasParams = config('metadata.mediasParams');
+        }
     }
 
     public function usesTrait($trait) {
