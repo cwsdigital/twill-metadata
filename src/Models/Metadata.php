@@ -57,18 +57,21 @@ class Metadata extends Model
         }
     }
 
-    protected function getFallbackValue($column) {
-        if( !array_key_exists($column, $this->fallbacks()) ) {
-            return;
+    protected function getFallbackValue($column)
+    {
+        if (!array_key_exists($column, $this->fallbacks())) {
+            return false;
         }
 
         $fallback = $this->fallbacks()[$column];
-        if($column == 'title' || $column == 'og_title') {
+
+        if ($column == 'title' || $column == 'og_title') {
             $site_title = app(SettingRepository::class)->byKey('site_title', 'seo');
-            return strip_tags($this->meta_describable->$fallback) . ($site_title ? ' - '. $site_title : '');
+            return strip_tags($this->meta_describable->$fallback).($site_title ? ' - '.$site_title : '');
         } else {
             return strip_tags($this->meta_describable->$fallback);
         }
+
     }
 
     protected function fallbacks() {
