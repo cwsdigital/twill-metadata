@@ -27,19 +27,6 @@ class Metadata extends Model
         return $this->morphTo();
     }
 
-//    //TODO - naming of this method?
-//    public function full() {
-//        $metadata = [];
-//        $exclude = ['id', 'created_at', 'updated_at', 'meta_describable_id', 'meta_describable_type', 'og_image'];
-//        $columns = array_diff($this->getTableColumns(), $exclude);
-//        foreach($columns as $column){
-//            $metadata[$column] = $this->field($column);
-//        }
-//
-//        $metadata['image'] = $this->meta_describable->getSocialImageAttribute();
-//
-//        return $metadata;
-//    }
 
     public function field($column)
     {
