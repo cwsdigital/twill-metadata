@@ -3,12 +3,25 @@
 namespace CwsDigital\TwillMetadata\Models;
 
 use A17\Twill\Repositories\SettingRepository;
-use Illuminate\Database\Eloquent\Model;
+use A17\Twill\Models\Behaviors\HasTranslation;
+use A17\Twill\Services\Capsules\HasCapsules;
+use A17\Twill\Models\Model;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class Metadata extends Model
 {
+    use HasTranslation;
+
+    public $translationModel = 'CwsDigital\TwillMetadata\Models\Translations\MetadataTranslation';
+
+    public $translatedAttributes = [
+        'title',
+        'description',
+        'og_title',
+        'og_description',
+        'canonical_url',
+    ];
 
     public $fillable = [
         'title',

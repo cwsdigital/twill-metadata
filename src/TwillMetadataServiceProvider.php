@@ -27,13 +27,22 @@ class TwillMetadataServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__.'/migrations');
-        $this->loadViewsFrom(__DIR__.'/views', 'twill-metadata');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'twill-metadata');
+        $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'twill-metadata');
         $this->extendBlade();
 
         $this->publishes([
             __DIR__.'/config/metadata.php' => config_path('metadata.php'),
-            __DIR__.'/config/seotools.php' => config_path('seotools.php')
+            __DIR__.'/config/seotools.php' => config_path('seotools.php'),
         ], 'config');
+
+        $this->publishes([
+            __DIR__.'/resources/views/' => resource_path('views/vendor/twill-metadata')
+        ], 'views');
+
+        $this->publishes([
+            __DIR__.'/resources/lang' => resource_path('lang/vendor/twill-metadata'),
+        ], 'lang');
     }
 
     private function extendBlade() {
