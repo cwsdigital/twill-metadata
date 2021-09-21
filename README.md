@@ -16,10 +16,11 @@ $ artisan migrate
 Set your model to use the `HasMetadata` trait, and add the public property `$metadataFallbacks`. 
 Your model also need to use the HasMedias trait in order to allow for OpenGraph images.
 ```php
+// App/Models/Page.php
 class Page extends Model {
 
-    use HasMetadata,
-        HasMedias;
+    use HasMetadata;
+    use HasMedias;
 
     public $metadataFallbacks = [];             
 ...
@@ -30,6 +31,7 @@ class Page extends Model {
 
 In the Twill admin controller for the model, ensure the `metadata_card_type_options` and `metadata_og_type_options` are set in the `formData()` method.
 ```php
+// App/Http/Controllers/Admin/PageController.php
 protected function formData($request)
     {
         return [
@@ -41,14 +43,27 @@ protected function formData($request)
 
 ### In your repository
 Add `use HandleMetadata` onto your page repository.
+```php
+//App/Repositories/PageRepository.php
+class PageRepository extends ModuleRepository
+{
+    use HandleBlocks, HandleSlugs, HandleMedias, HandleFiles, HandleRevisions, HandleMetadata;
+
+    public function __construct(Page $model)
+    {
+        $this->model = $model;
+    }
+}
+```
 
 ### In your view
 
 In the admin 'form.blade.php' view add the metadata fieldset to the additional fieldsets of the form.
 ```blade
+{{-- resources/views/admin/pages/form.blade.php --}}
 @extends('twill::layouts.form', [
     'additionalFieldsets' => [
-        ['fieldset' => 'metadata', 'label' => 'Custom Title'],
+        ['fieldset' => 'metadata', 'label' => 'SEO'],
     ]
 ])
 
@@ -110,8 +125,6 @@ Within the config file is a fallbacks array, which can be customised according t
 'fallbacks' => [
         'title' => 'title',
         'description' => 'content',
-        'og_title' => 'title',
-        'og_description' => 'content',
         'og_type' => 'metadataDefaultOgType',
         'card_type' => 'metadataDefaultCardType',
     ],
@@ -144,12 +157,7 @@ In your controller for your front end application you can add the trait `SetsMet
 
 ```php
 <?php
-
-namespace App\Http\Controllers;
-
-use App\Models\Page;
-use CwsDigital\TwillMetadata\Traits\SetsMetadata;
-
+//App/Http/Controllers/PageController.php
 class PageController extends Controller
 {
     use setsMetadata;
@@ -164,9 +172,10 @@ class PageController extends Controller
 
 Under the hood this uses the [artesaos/seotools](https://github.com/artesaos/seotools) package to set and display metadata. So you are free to not use the above helper, and manually set the meta tags as required. Or you can use the helper, and then use the methods provided by the package to amend the tags.
 
-### Displaying the meta tags
-See the documentation for [artesaos/seotools](https://github.com/artesaos/seotools) for more granular options, but the easiest way is shown below:\
+### Outputting the meta tags
+See the documentation for [artesaos/seotools](https://github.com/artesaos/seotools) for more granular options, but the easiest way is shown below:
 ```blade
+{{-- resources/views/layouts/site.blade.php --}}
 <html lang="en">
 <head>
 
