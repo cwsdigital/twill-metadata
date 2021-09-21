@@ -23,14 +23,15 @@ class Metadata extends Model
     ];
 
 
-    public function meta_describable() {
+    public function meta_describable()
+    {
         return $this->morphTo();
     }
 
 
     public function field($column)
     {
-        switch($column) {
+        switch ($column) {
             case 'og_image':
                 return $this->meta_describable->getSocialImageAttribute();
                 break;
@@ -41,8 +42,7 @@ class Metadata extends Model
         }
 
         if (!empty($this->$column)) {
-            switch( $column) {
-
+            switch ($column) {
                 case 'og_type':
                     return $this->getOgTypeContent($this->$column);
                     break;
@@ -57,47 +57,64 @@ class Metadata extends Model
         }
     }
 
-    protected function getFallbackValue($column)
+    protected function getOgTypeContent($id)
     {
-        if (!array_key_exists($column, $this->fallbacks())) {
-            return false;
-        }
-
-        $fallback = $this->fallbacks()[$column];
-
-        if ($column == 'title' || $column == 'og_title') {
-            $site_title = app(SettingRepository::class)->byKey('site_title', 'seo');
-            return strip_tags($this->meta_describable->$fallback).($site_title ? ' - '.$site_title : '');
-        } else {
-            return strip_tags($this->meta_describable->$fallback);
-        }
-
-    }
-
-    protected function fallbacks() {
-        return $this->meta_describable->metadataFallbacks;
-    }
-
-    /*
-     * Return the meta content value from given og_type id value
-     */
-    protected function getOgTypeContent($id) {
         $og_types = config('metadata.opengraph_type_options');
         $key = array_search($id, array_column($og_types, 'value'));
         return $og_types[$key]['label'];
     }
 
-    /*
-     * Return the meta content value from given card_type id value
-     */
-    protected function getCardTypeContent($id) {
+    protected function getCardTypeContent($id)
+    {
         $og_types = config('metadata.card_type_options');
         $key = array_search($id, array_column($og_types, 'value'));
         return $og_types[$key]['label'];
     }
 
+    /*
+     * Return the meta content value from given og_type id value
+     */
 
-    private function getTableColumns() {
+    protected function getFallbackValue($columnName)
+    {
+        if (!array_key_exists($columnName, $this->fallbacks())) {
+            return false;
+        }
+
+        $fallbackColumnName = $this->fallbacks()[$columnName];
+
+        // For opengraph title fall back to meta title
+        if ($columnName == 'og_title') {
+            return $this->field('title');
+        }
+
+        // For opengraph description fall back to meta description
+        if ($columnName == 'og_description') {
+            return $this->field('description');
+        }
+
+        // For title, we'll use the fallback columm and  append the site title too.
+        if ($columnName == 'title') {
+            $siteTitle = app(SettingRepository::class)->byKey('site_title', 'seo');
+            return strip_tags($this->meta_describable->$fallbackColumnName).($siteTitle ? ' - '.$siteTitle : '');
+        }
+
+        // otherwise simply use the fallback column value
+        return strip_tags($this->meta_describable->$fallbackColumnName);
+
+    }
+
+    /*
+     * Return the meta content value from given card_type id value
+     */
+
+    protected function fallbacks()
+    {
+        return $this->meta_describable->metadataFallbacks;
+    }
+
+    private function getTableColumns()
+    {
         return Schema::getColumnListing($this->getTable());
     }
 

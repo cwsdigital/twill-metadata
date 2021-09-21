@@ -11,6 +11,7 @@ trait SetsMetadata {
         $request = request();
 
         SEOTools::setTitle($metadata->field('title'));
+
         if( $metadata->field('description') ) {
             SEOTools::setDescription($metadata->field('description'));
         }
@@ -26,6 +27,8 @@ trait SetsMetadata {
         if($metadata->field('og_image')) {
             SEOTools::opengraph()->addImage($metadata->field('og_image'));
         }
+
+        SEOTools::opengraph()->setUrl($request->url());
 
         if($metadata->field('canonical_url')) {
             SEOTools::metatags()->setCanonical($metadata->field('canonical_url'));

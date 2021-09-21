@@ -5,8 +5,6 @@ return [
     'fallbacks' => [
         'title' => 'title',
         'description' => false,
-        'og_title' => 'title',
-        'og_description' => false,
         'og_type' => 'metadataDefaultOgType',
         'card_type' => 'metadataDefaultCardType',
     ],
