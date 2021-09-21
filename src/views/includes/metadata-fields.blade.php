@@ -2,6 +2,7 @@
     <x-formFieldset title="SEO Details" id="metadata">
         @formField('input', [
         'name' => 'metadata[title]',
+        'translated' => true,
         'label' => 'SEO Title',
         'note' => 'defaults to the page title if blank'
         ])
@@ -9,18 +10,21 @@
         @formField('input', [
         'name' => 'metadata[description]',
         'label' => 'SEO Description',
+        'translated' => true,
         'note' => 'defaults to an excerpt of the page content if blank'
         ])
 
         @formField('input', [
         'name' => 'metadata[og_title]',
         'label' => 'Social Title',
+        'translated' => true,
         'note' => 'defaults to the seo title if blank'
         ])
 
         @formField('input', [
         'name' => 'metadata[og_description]',
         'label' => 'Social Description',
+        'translated' => true,
         'note' => 'defaults to the seo description if blank'
         ])
 
@@ -65,6 +69,7 @@
         @formField('input', [
         'name' => 'metadata[canonical_url]',
         'label' => 'Canonical URL',
+        'translated' => true,
         ])
 
 

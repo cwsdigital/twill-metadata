@@ -2,7 +2,8 @@
 
 namespace CwsDigital\TwillMetadata\Repositories\Behaviours;
 
-use Illuminate\Database\Eloquent\Model;
+use A17\Twill\Models\Model;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 
 trait HandleMetadata {
@@ -27,7 +28,11 @@ trait HandleMetadata {
 
         $fields = $this->setFieldDefaults($object, $fields);
 
-        $object->metadata()->update($fields);
+        $repository = App::make('CwsDigital\TwillMetadata\Repositories\MetadataRepository');
+
+        $repository->update($object->id, $fields);
+
+        //$object->metadata()->update($fields);
     }
 
     /**
@@ -38,12 +43,22 @@ trait HandleMetadata {
      * @return array
      */
     public function getFormFieldsHandleMetadata(Model $object, array $fields){
+        $repository = App::make('CwsDigital\TwillMetadata\Repositories\MetadataRepository');
+
         //If the metadata object doesn't exist create it.  Every 'meta_describable' will need one entry.
         $metadata = $object->metadata ?? $object->metadata()->create();
 
-        $metadata = $this->setFieldDefaults($object, $metadata);
-
-        $fields['metadata'] = $metadata->attributesToArray();
+        if ($metadata->translations != null && $metadata->translatedAttributes != null) {
+            foreach ($metadata->translations as $translation) {
+                foreach ($metadata->translatedAttributes as $attribute) {
+                    unset($fields[$attribute]);
+                    $fields['translations']["metadata[{$attribute}]"][$translation->locale] = $translation->{$attribute};
+                }
+            }
+        } else {
+            $metadata = $this->setFieldDefaults($object, $metadata);
+            $fields['metadata'] = $metadata->attributesToArray();
+        }
 
         return $fields;
     }
