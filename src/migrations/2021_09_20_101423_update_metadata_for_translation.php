@@ -21,6 +21,14 @@ class UpdateMetaDataForTranslation extends Migration
         });
     }
 
+    public function down() {
+        Schema::table('metadata', function(Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
+
+        Schema::dropIfExists('metadata_translations');
+    }
+
 
 
 }
