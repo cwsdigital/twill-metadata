@@ -14,9 +14,9 @@ class UpdateMetaDataForTranslation extends Migration
             createDefaultTranslationsTableFields($table, 'metadata');
 
             $table->string('title')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('og_title')->nullable();
-            $table->string('og_description')->nullable();
+            $table->text('og_description')->nullable();
             $table->string('canonical_url')->nullable();
         });
     }
