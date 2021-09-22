@@ -30,9 +30,10 @@ trait HandleMetadata {
 
         $repository = App::make('CwsDigital\TwillMetadata\Repositories\MetadataRepository');
 
-        $repository->update($object->id, $fields);
+        $metadata = $object->metadata ?? $object->metadata()->create();
 
-        //$object->metadata()->update($fields);
+        $repository->update($metadata->id, $fields);
+
     }
 
     /**
@@ -43,8 +44,6 @@ trait HandleMetadata {
      * @return array
      */
     public function getFormFieldsHandleMetadata(Model $object, array $fields){
-        $repository = App::make('CwsDigital\TwillMetadata\Repositories\MetadataRepository');
-
         //If the metadata object doesn't exist create it.  Every 'meta_describable' will need one entry.
         $metadata = $object->metadata ?? $object->metadata()->create();
 
