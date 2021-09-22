@@ -13,8 +13,17 @@ $ composer require cwsdigital/twill-metadata
 $ artisan migrate
 ```
 
-## Upgrading
-Version 1 upwards introduces support for translated metadata.  This means if you are upgrading from pre-v1.x version in an existing site with content you will need to migrate your content from the columns on the `metadata` table to the `metadata_translations` table.  
+## Upgrade Notes
+**v1.0.0**<br />
+This version introduces support for translated metadata.  This means if you are upgrading from pre-v1.x version in an existing site with content you will need to migrate your content from the columns on the `metadata` table to the `metadata_translations` table.  
+
+
+**v1.1.0**<br />
+This version drops the translated columns from the `metadata` table. 
+
+**WARNING! Do not upgrade to v1.1.x from a pre-1.0 installation on an existing site with content. YOU WILL LOSE DATA.**
+
+If you wish to upgrade to this version, upgrade to v1.0.0 first, then perform any content migrations required.  Only once you have moved all translatable data from the `metadata` table to the `metadata_translations` table should you upgrade to v1.1.x.
 
 ## Configuration
 
@@ -65,7 +74,7 @@ class PageRepository extends ModuleRepository
 
 ### In the view
 #### Add the fieldset to your form
-In the admin 'form.blade.php' view add the metadata fieldset to the additional fieldsets of the form.
+In the admin 'form.blade.php' view add the metadata fieldset to the additional fieldsets section of the form.
 ```blade
 {{-- resources/views/admin/pages/form.blade.php --}}
 @extends('twill::layouts.form', [
