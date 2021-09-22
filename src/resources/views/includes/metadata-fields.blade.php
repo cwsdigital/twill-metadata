@@ -57,6 +57,7 @@
                     'name' => 'metadata[og_title]',
                     'label' => twillTrans('twill-metadata::form.fields.og_title.label'),
                     'note' => twillTrans('twill-metadata::form.fields.og_title.note'),
+                    'translated' => true,
                 ])
 
                 @formField('input', [
@@ -65,6 +66,7 @@
                     'type' => 'textarea',
                     'rows' => 2,
                     'note' => twillTrans('twill-metadata::form.fields.og_description.note'),
+                    'translated' => true,
                 ])
 
                 <x-formColumns>
