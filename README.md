@@ -13,6 +13,9 @@ $ composer require cwsdigital/twill-metadata
 $ artisan migrate
 ```
 
+## Upgrading
+Version 1 upwards introduces support for translated metadata.  This means if you are upgrading from pre-v1.x version in an existing site with content you will need to migrate your content from the columns on the `metadata` table to the `metadata_translations` table.  
+
 ## Configuration
 
 ### In the model
@@ -190,3 +193,12 @@ If you wish to provide a default OpenGraph Type and Twitter Card Type then you c
     public $metadataDefaultCardType = 'summary_large_image';
 ```
 
+You can publish the views for the package with the following command:
+```shell script
+  php artisan vendor:publish --provider="CwsDigital\TwillMetadata\TwillMetadataServiceProvider" --tag=views
+```
+
+You can publish the language files for the package with the following command:
+```shell script
+  php artisan vendor:publish --provider="CwsDigital\TwillMetadata\TwillMetadataServiceProvider" --tag=lang
+```
