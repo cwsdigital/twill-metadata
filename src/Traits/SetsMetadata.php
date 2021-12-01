@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 trait SetsMetadata {
 
-    public function setMetadata(Model $describable, array $metadata=[]) {
+    public function setMetadata(Model $describable) {
         $metadata = $describable->metadata;
-        $request = request();
+
+        if(!$metadata) return; // Prevent errors if model has no attached metadata
 
         SEOTools::setTitle($metadata->field('title'));
 
@@ -28,7 +29,7 @@ trait SetsMetadata {
             SEOTools::opengraph()->addImage($metadata->field('og_image'));
         }
 
-        SEOTools::opengraph()->setUrl($request->url());
+        SEOTools::opengraph()->setUrl(request()->url());
 
         if($metadata->field('canonical_url')) {
             SEOTools::metatags()->setCanonical($metadata->field('canonical_url'));
