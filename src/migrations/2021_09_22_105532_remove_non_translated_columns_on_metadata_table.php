@@ -14,11 +14,7 @@ class RemoveNonTranslatedColumnsOnMetadataTable extends Migration
     public function up()
     {
         Schema::table('metadata', function(Blueprint $table){
-            $table->dropColumn('title');
-            $table->dropColumn('description');
-            $table->dropColumn('og_title');
-            $table->dropColumn('og_description');
-            $table->dropColumn('canonical_url');
+            $table->dropColumn(['title', 'description', 'og_title', 'og_description', 'canonical_url']);
         });
     }
 
