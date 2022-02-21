@@ -19,7 +19,7 @@
         }
     },
     "require": {
-        "area17/twill": "^2.2",
+        "area17/twill": "^2.*",
         "artesaos/seotools": "^0.20"
     }
 }
