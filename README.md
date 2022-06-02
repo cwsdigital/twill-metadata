@@ -103,7 +103,7 @@ return [
     'settings' => [
         'title' => 'Settings',
         'route' => 'admin.settings',
-        'params' => ['section' => 'general'],
+        'params' => ['section' => 'seo'],
         'primary_navigation' => [
             //...
             'seo' => [
