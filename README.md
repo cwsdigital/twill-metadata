@@ -136,7 +136,7 @@ In your controller for your front end application you can add the trait `SetsMet
 // App/Http/Controllers/PageController.php
 class PageController extends Controller
 {
-    use setsMetadata;
+    use SetsMetadata;
 
     public function show($slug) {
         $page = Page::forSlug($slug)->first();
