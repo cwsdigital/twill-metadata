@@ -14,7 +14,7 @@ $ composer require cwsdigital/twill-metadata
 ```
 
 ```shell script
-$ artisan migrate
+$ php artisan migrate
 ```
 
 ## Upgrade Notes
@@ -37,7 +37,8 @@ This package requires Laravel 8 or higher, PHP8 or higher, and Twill 2.2 or high
 ### In the model
 
 Set your model to use the `HasMetadata` trait, and add the public property `$metadataFallbacks`. 
-Your model also need to use the HasMedias trait in order to allow for OpenGraph images.
+
+Note: Your model also must include the HasMedias trait. This trait is used for generating for OpenGraph images.
 ```php
 // App/Models/Page.php
 class Page extends Model {
@@ -136,7 +137,7 @@ return [
 
 
 ## Setting meta tags
-In your controller for your front end application you can add the trait `SetsMetadata` and then use the `setMetadata()` function to set the metadata.  
+In your controller for your frontend application you can add the trait `SetsMetadata` and then use the `setMetadata()` function to set the metadata.  
 
 ```php
 <?php
@@ -167,7 +168,7 @@ See the documentation for [artesaos/seotools](https://github.com/artesaos/seotoo
 </head>
 ```
 
-## Customization
+## Customisation
 
 You can publish the config for the package with the following command:
 ```shell script
@@ -176,8 +177,8 @@ You can publish the config for the package with the following command:
 
 Within the config file is a fallbacks array, which can be customised according to your needs.  This is a global config and will apply to all models that use the HasMetadata trait. i.e. in the config below if no description is entered in the metadata description field, the content field on the model will be used as the metadata description (all tags will be stripped).
 ```php
-//Key is the metadata attribute,// 
-//Value is the model attribute it will fall back to if metadata value is empty
+// Key is the metadata attribute,
+// Value is the model attribute it will fall back to if metadata value is empty
 'fallbacks' => [
         'title' => 'title',
         'description' => 'content',
