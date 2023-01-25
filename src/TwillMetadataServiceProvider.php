@@ -37,7 +37,7 @@ class TwillMetadataServiceProvider extends ServiceProvider
         ], 'config');
 
         $this->publishes([
-            __DIR__.'/resources/views/' => resource_path('views/vendor/twill-metadata')
+            __DIR__.'/resources/views/' => resource_path('views/vendor/twill-metadata'),
         ], 'views');
 
         $this->publishes([
@@ -45,7 +45,8 @@ class TwillMetadataServiceProvider extends ServiceProvider
         ], 'lang');
     }
 
-    private function extendBlade() {
+    private function extendBlade()
+    {
         Blade::include('twill-metadata::includes.metadata-fields', 'metadataFields');
         Blade::include('twill-metadata::includes.metadata-settings', 'metadataSettings');
     }

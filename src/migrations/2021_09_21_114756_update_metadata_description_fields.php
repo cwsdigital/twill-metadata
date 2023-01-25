@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class UpdateMetadataDescriptionFields extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -14,7 +13,7 @@ class UpdateMetadataDescriptionFields extends Migration
      */
     public function up()
     {
-        Schema::table('metadata', function(Blueprint $table) {
+        Schema::table('metadata', function (Blueprint $table) {
             $table->text('description')->change();
             $table->text('og_description')->change();
         });
@@ -27,7 +26,7 @@ class UpdateMetadataDescriptionFields extends Migration
 
     public function down()
     {
-        Schema::table('metadata', function(Blueprint $table) {
+        Schema::table('metadata', function (Blueprint $table) {
             $table->string('description')->change();
             $table->string('og_description')->change();
         });
@@ -37,5 +36,4 @@ class UpdateMetadataDescriptionFields extends Migration
             $table->string('og_description')->change();
         });
     }
-
 }

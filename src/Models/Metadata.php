@@ -2,12 +2,10 @@
 
 namespace CwsDigital\TwillMetadata\Models;
 
-use A17\Twill\Repositories\SettingRepository;
 use A17\Twill\Models\Behaviors\HasTranslation;
-use A17\Twill\Services\Capsules\HasCapsules;
 use A17\Twill\Models\Model;
+use A17\Twill\Repositories\SettingRepository;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
 
 class Metadata extends Model
 {
@@ -52,7 +50,7 @@ class Metadata extends Model
                 break;
         }
 
-        if (!empty($this->$column)) {
+        if (! empty($this->$column)) {
             switch ($column) {
                 case 'og_type':
                     return $this->getOgTypeContent($this->$column);
@@ -72,6 +70,7 @@ class Metadata extends Model
     {
         $og_types = config('metadata.opengraph_type_options');
         $key = array_search($id, array_column($og_types, 'value'));
+
         return $og_types[$key]['label'];
     }
 
@@ -79,6 +78,7 @@ class Metadata extends Model
     {
         $og_types = config('metadata.card_type_options');
         $key = array_search($id, array_column($og_types, 'value'));
+
         return $og_types[$key]['label'];
     }
 
@@ -87,7 +87,7 @@ class Metadata extends Model
      */
     protected function getFallbackValue($columnName)
     {
-        if (!array_key_exists($columnName, $this->fallbacks())) {
+        if (! array_key_exists($columnName, $this->fallbacks())) {
             return false;
         }
 
@@ -106,6 +106,7 @@ class Metadata extends Model
         // For title, we'll use the fallback columm and  append the site title too.
         if ($columnName == 'title') {
             $siteTitle = app(SettingRepository::class)->byKey('site_title', 'seo');
+
             return strip_tags($this->meta_describable->$fallbackColumnName).($siteTitle ? ' - '.$siteTitle : '');
         }
 
@@ -125,5 +126,4 @@ class Metadata extends Model
     {
         return Schema::getColumnListing($this->getTable());
     }
-
 }

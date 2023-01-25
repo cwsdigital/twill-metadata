@@ -12,7 +12,7 @@ return [
         'title' => [
             'label' => 'Meta Title',
             'note' => 'Recommended length 40 - 60 characters',
-            ],
+        ],
         'description' => [
             'label' => 'Meta Description',
             'note' => 'Recommended length 80 - 120 characters',
@@ -21,7 +21,7 @@ return [
             'label' => 'Tell search engines not to index this page (noindex tag).',
         ],
         'nofollow' => [
-            'label' => 'Tell search engines not to follow links on this page (nofollow tag).'
+            'label' => 'Tell search engines not to follow links on this page (nofollow tag).',
         ],
         'canonical_url' => [
             'label' => 'Canonical URL',

@@ -1,65 +1,71 @@
 <?php
 
-
 namespace CwsDigital\TwillMetadata\Models\Behaviours;
 
 use A17\Twill\Models\Setting;
 
-trait HasMetadata {
-
+trait HasMetadata
+{
     public bool $hasMetadata = true;
 
-    public function metadata() {
+    public function metadata()
+    {
         return $this->morphOne('CwsDigital\TwillMetadata\Models\Metadata', 'meta_describable');
     }
 
-    public function getSocialImageAttribute() {
-        if ( $this->hasImage('og_image') ) {
+    public function getSocialImageAttribute()
+    {
+        if ($this->hasImage('og_image')) {
             return $this->socialImage('og_image');
-        } elseif( $this->hasSpecifiedMetaFallbackImage('og_image') ) {
+        } elseif ($this->hasSpecifiedMetaFallbackImage('og_image')) {
             return $this->getSpecifiedMetadataFallbackImage('og_image');
-        } elseif ( $this->hasAnyImages() ) {
+        } elseif ($this->hasAnyImages()) {
             return $this->getDefaultMetadataFallbackImage();
         } else {
             $media = Setting::firstWhere('key', 'default_social_image');
-            if($media) {
+            if ($media) {
                 return $media->image('default_social_image', 'default');
             }
         }
     }
 
-    public function hasSpecifiedMetaFallbackImage($key) {
-        if( array_key_exists($key, $this->metadataFallbacks ) ) {
-            return (
-                !empty($this->metadataFallbacks[$key]) &&
+    public function hasSpecifiedMetaFallbackImage($key)
+    {
+        if (array_key_exists($key, $this->metadataFallbacks)) {
+            return
+                ! empty($this->metadataFallbacks[$key]) &&
                 is_array($this->metadataFallbacks[$key]) &&
                 array_key_exists('role', $this->metadataFallbacks[$key]) &&
-                array_key_exists('crop', $this->metadataFallbacks[$key])
-            );
+                array_key_exists('crop', $this->metadataFallbacks[$key]);
         } else {
             return false;
         }
     }
 
-    public function getSpecifiedMetadataFallbackImage($key) {
+    public function getSpecifiedMetadataFallbackImage($key)
+    {
         $role = $this->metadataFallbacks[$key]['role'];
         $crop = $this->metadataFallbacks[$key]['crop'];
 
         return $this->socialImage($role, $crop, [], true);
     }
 
-    public function getDefaultMetadataFallbackImage() {
-        if ( $this->hasAnyMedias() ) {
+    public function getDefaultMetadataFallbackImage()
+    {
+        if ($this->hasAnyMedias()) {
             $media = $this->medias()->first();
+
             return $this->socialImage($media->pivot->role, $media->pivot->crop, [], true);
-        } elseif ( $this->hasAnyBlockMedias() ) {
+        } elseif ($this->hasAnyBlockMedias()) {
             $block = $this->blocks()->has('medias')->first();
             $media = $block->medias()->first();
+
             return $block->socialImage($media->pivot->role, $media->pivot->crop, [], true);
         }
     }
 
-    public function hasAnyImages() {
+    public function hasAnyImages()
+    {
         return $this->hasAnyMedias() || $this->hasAnyBlockMedias();
     }
 
@@ -70,24 +76,29 @@ trait HasMetadata {
 
         // Add the default metadata from config into the $mediasParams array
         // by default adds in an 'og_image' role with a 'default' crop
-        if( isset($this->mediasParams) && is_Array($this->mediasParams)) {
+        if (isset($this->mediasParams) && is_array($this->mediasParams)) {
             $this->mediasParams = array_merge($this->mediasParams, config('metadata.mediasParams'));
         } else {
             $this->mediasParams = config('metadata.mediasParams');
         }
     }
 
-    public function usesTrait($trait) {
+    public function usesTrait($trait)
+    {
         return array_key_exists($trait, class_uses($this));
     }
 
-    public function hasAnyMedias() {
+    public function hasAnyMedias()
+    {
         $hasMedias = $this->usesTrait('A17\Twill\Models\Behaviors\HasMedias');
+
         return $hasMedias ? $this->medias()->count() : 0;
     }
 
-    public function hasAnyBlockMedias() {
+    public function hasAnyBlockMedias()
+    {
         $hasBlocks = $this->usesTrait('A17\Twill\Models\Behaviors\HasBlocks');
+
         return $hasBlocks ? $this->blocks()->has('medias')->count() : 0;
     }
 }

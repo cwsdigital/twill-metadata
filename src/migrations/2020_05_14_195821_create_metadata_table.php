@@ -29,7 +29,7 @@ class CreateMetadataTable extends Migration
             $table->string('meta_describable_type');
             $table->timestamps();
 
-            $table->index(['meta_describable_id','meta_describable_type']);
+            $table->index(['meta_describable_id', 'meta_describable_type']);
         });
     }
 

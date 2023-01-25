@@ -10,17 +10,17 @@ return [
     ],
 
     'opengraph_type_options' => [
-        ['value' => 'website', 'label' => 'Website',],
-        ['value' => 'article','label' => 'Article',],
-        ['value' => 'book', 'label' => 'Book',],
+        ['value' => 'website', 'label' => 'Website'],
+        ['value' => 'article', 'label' => 'Article'],
+        ['value' => 'book', 'label' => 'Book'],
         ['value' => 'profile', 'label' => 'Profile'],
     ],
 
     'card_type_options' => [
-        [ 'value' => 'summary', 'label' => 'Summary',],
-        [ 'value' => 'summary_large_image','label' => 'Summary with Large Image',],
-        [ 'value' => 'app', 'label' => 'App',],
-        [ 'value' => 'player', 'label' => 'Player'],
+        ['value' => 'summary', 'label' => 'Summary'],
+        ['value' => 'summary_large_image', 'label' => 'Summary with Large Image'],
+        ['value' => 'app', 'label' => 'App'],
+        ['value' => 'player', 'label' => 'Player'],
     ],
 
     'mediasParams' => [
@@ -32,10 +32,10 @@ return [
                     'minValues' => [
                         'width' => 1200,
                         'height' => 627,
-                    ]
-                ]
+                    ],
+                ],
             ],
 
-        ]
-    ]
+        ],
+    ],
 ];

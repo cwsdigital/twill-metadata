@@ -1,11 +1,11 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 class RemoveNonTranslatedColumnsOnMetadataTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -13,14 +13,14 @@ class RemoveNonTranslatedColumnsOnMetadataTable extends Migration
      */
     public function up()
     {
-        Schema::table('metadata', function(Blueprint $table){
+        Schema::table('metadata', function (Blueprint $table) {
             $table->dropColumn(['title', 'description', 'og_title', 'og_description', 'canonical_url']);
         });
     }
 
     public function down()
     {
-        Schema::table('metadata', function(Blueprint $table){
+        Schema::table('metadata', function (Blueprint $table) {
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->string('og_title')->nullable();
@@ -28,6 +28,4 @@ class RemoveNonTranslatedColumnsOnMetadataTable extends Migration
             $table->string('canonical_url')->nullable();
         });
     }
-
-
 }
