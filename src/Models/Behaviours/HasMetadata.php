@@ -7,7 +7,7 @@ use A17\Twill\Models\Setting;
 
 trait HasMetadata {
 
-    public $hasMetadata = true;
+    public bool $hasMetadata = true;
 
     public function metadata() {
         return $this->morphOne('CwsDigital\TwillMetadata\Models\Metadata', 'meta_describable');
@@ -27,7 +27,6 @@ trait HasMetadata {
             }
         }
     }
-
 
     public function hasSpecifiedMetaFallbackImage($key) {
         if( array_key_exists($key, $this->metadataFallbacks ) ) {
@@ -66,7 +65,7 @@ trait HasMetadata {
 
     protected function initializeHasMetadata()
     {
-        // Setup the array for fallback columns
+        // Set up the array for fallback columns
         $this->metadataFallbacks = array_merge(config('metadata.fallbacks'), $this->metadataFallbacks);
 
         // Add the default metadata from config into the $mediasParams array

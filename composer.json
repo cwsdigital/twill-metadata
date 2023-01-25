@@ -1,9 +1,18 @@
 {
     "name": "cwsdigital/twill-metadata",
+    "description": "Add SEO Metadata to your Twill.io models.",
+    "keywords": [
+        "twill",
+        "cwsdigital",
+        "twill-metadata"
+    ],
+    "license": "MIT",
     "authors": [
         {
-            "name": "Chris Pymm",
-            "email": "chris@cwsdigital.com"
+            "name": "Paul Dwight",
+            "homepage": "https://cwsdigital.com",
+            "email": "paul@cwsdigital.com",
+            "role": "Developer"
         }
     ],
     "extra": {
@@ -19,7 +28,10 @@
         }
     },
     "require": {
-        "area17/twill": "^2.2",
-        "artesaos/seotools": "^0.22"
-    }
+        "php": "^8.0",
+        "area17/twill": "^2.2|^3.0",
+        "artesaos/seotools": "^1.0"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

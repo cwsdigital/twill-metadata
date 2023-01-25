@@ -35,12 +35,10 @@ class Metadata extends Model
         'canonical_url',
     ];
 
-
     public function meta_describable()
     {
         return $this->morphTo();
     }
-
 
     public function field($column)
     {
@@ -87,7 +85,6 @@ class Metadata extends Model
     /*
      * Return the meta content value from given og_type id value
      */
-
     protected function getFallbackValue($columnName)
     {
         if (!array_key_exists($columnName, $this->fallbacks())) {
@@ -114,13 +111,11 @@ class Metadata extends Model
 
         // otherwise simply use the fallback column value
         return strip_tags($this->meta_describable->$fallbackColumnName);
-
     }
 
     /*
      * Return the meta content value from given card_type id value
      */
-
     protected function fallbacks()
     {
         return $this->meta_describable->metadataFallbacks;

@@ -1,5 +1,9 @@
 # Twill Metadata
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/cwsdigital/twill-metadata.svg?style=flat-square)](https://packagist.org/packages/cwsdigital/twill-metadata)
+[![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
+[![Total Downloads](https://img.shields.io/packagist/dt/cwsdigital/twill-metadata.svg?style=flat-square)](https://packagist.org/packages/cwsdigital/twill-metadata)
+
 This package is a simple way to add SEO metadata to your [Twill](https://twill.io/) models by providing a drop-in fieldset to add all the required fields into your model edit form.  With sensible defaults, configurable fallbacks, and a global settings screen; this package should meet most of the needs for optimising meta tags within a site.
 
 ![default and expanded views of twill metadata fieldset](https://github.com/cwsdigital/twill-metadata/blob/master/Twill-Metadata-Preview.jpg)
@@ -24,6 +28,9 @@ This version drops the translated columns from the `metadata` table.
 **WARNING! Do not upgrade to v1.1.x from a pre-1.0 installation on an existing site with content. YOU WILL LOSE DATA.**
 
 If you wish to upgrade to this version, upgrade to v1.0.0 first, then perform any content migrations required.  Only once you have moved all translatable data from the `metadata` table to the `metadata_translations` table should you upgrade to v1.1.x.
+
+## Requirements
+This package requires Laravel 8 or higher, PHP8 or higher, and Twill 2.2 or higher.
 
 ## Configuration
 
@@ -103,7 +110,7 @@ return [
     'settings' => [
         'title' => 'Settings',
         'route' => 'admin.settings',
-        'params' => ['section' => 'general'],
+        'params' => ['section' => 'seo'],
         'primary_navigation' => [
             //...
             'seo' => [
