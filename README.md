@@ -124,7 +124,7 @@ Global settings for metadata allows you to set defaults for the following:
 ```php
 {{-- config/twill.php --}
 return [
-    'block_editor' => [
+    'settings' => [
         'crops' => [
             'default_social_image' => [
                 'default' => [
