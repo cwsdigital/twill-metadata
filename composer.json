@@ -29,8 +29,8 @@
     },
     "require": {
         "php": "^8.0",
-        "area17/twill": "^2.2|^3.0",
-        "artesaos/seotools": "^1.0"
+        "area17/twill": "^3.0",
+        "artesaos/seotools": "^1.2"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

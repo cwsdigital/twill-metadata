@@ -2,9 +2,9 @@
 
 namespace CwsDigital\TwillMetadata\Models;
 
+use A17\Twill\Facades\TwillAppSettings;
 use A17\Twill\Models\Behaviors\HasTranslation;
 use A17\Twill\Models\Model;
-use A17\Twill\Repositories\SettingRepository;
 use Illuminate\Support\Facades\Schema;
 
 class Metadata extends Model
@@ -103,10 +103,9 @@ class Metadata extends Model
             return $this->field('description');
         }
 
-        // For title, we'll use the fallback columm and  append the site title too.
+        // For title, we'll use the fallback column and append the site title too.
         if ($columnName == 'title') {
-            $siteTitle = app(SettingRepository::class)->byKey('site_title', 'seo');
-
+            $siteTitle = TwillAppSettings::getTranslated('seo.metadata.site_title');
             return strip_tags($this->meta_describable->$fallbackColumnName).($siteTitle ? ' - '.$siteTitle : '');
         }
 

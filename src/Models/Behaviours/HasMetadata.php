@@ -2,7 +2,7 @@
 
 namespace CwsDigital\TwillMetadata\Models\Behaviours;
 
-use A17\Twill\Models\Setting;
+use A17\Twill\Facades\TwillAppSettings;
 
 trait HasMetadata
 {
@@ -22,9 +22,9 @@ trait HasMetadata
         } elseif ($this->hasAnyImages()) {
             return $this->getDefaultMetadataFallbackImage();
         } else {
-            $media = Setting::firstWhere('key', 'default_social_image');
-            if ($media) {
-                return $media->image('default_social_image', 'default');
+            $hasMediaImage = TwillAppSettings::getGroupDataForSectionAndName('seo','metadata')->hasImage('default_social_image', 'default');
+            if ($hasMediaImage) {
+                return TwillAppSettings::getGroupDataForSectionAndName('seo','metadata')->image('default_social_image', 'default');
             }
         }
     }
