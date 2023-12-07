@@ -2,26 +2,26 @@
 
 namespace CwsDigital\TwillMetadata\Repositories\Behaviours;
 
-use A17\Twill\Models\Model;
+use A17\Twill\Models\Contracts\TwillModelContract;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 
 trait HandleMetadata
 {
     // Prefix for metadata fields in form
-    protected $metadataFieldPrefix = 'metadata';
+    protected string $metadataFieldPrefix = 'metadata';
 
     // Fields with fixed default values that we want persisting to store if blank
     // N.B. this does not include those fields that fallback to another field when blank
-    protected $withDefaultValues = ['card_type', 'og_type'];
+    protected array $withDefaultValues = ['card_type', 'og_type'];
 
     /**
-     * Handle saving of metadata fields from form submission
+     * Handle saving of metadata fields from form submission.
      *
-     * @param  Model  $object
-     * @param  array  $fields
+     * @param \A17\Twill\Models\Contracts\TwillModelContract $object
+     * @param array                                          $fields
      */
-    public function afterSaveHandleMetadata(Model $object, array $fields)
+    public function afterSaveHandleMetadata(TwillModelContract $object, array $fields)
     {
         // Due to the way twill handles adding data to VueX store
         // metadata will come through in individual fields metadata[title]... not in an array
@@ -37,15 +37,16 @@ trait HandleMetadata
     }
 
     /**
-     * Prepares the metadata fields for the admin form view
+     * Prepares the metadata fields for the admin form view.
      *
-     * @param  Model  $object
-     * @param  array  $fields
+     * @param \A17\Twill\Models\Contracts\TwillModelContract $object
+     * @param array                                          $fields
+     *
      * @return array
      */
-    public function getFormFieldsHandleMetadata(Model $object, array $fields)
+    public function getFormFieldsHandleMetadata(TwillModelContract $object, array $fields)
     {
-        //If the metadata object doesn't exist create it.  Every 'meta_describable' will need one entry.
+        // If the metadata object doesn't exist create it.  Every 'meta_describable' will need one entry.
         $metadata = $object->metadata ?? $object->metadata()->create();
 
         $metadata = $this->setFieldDefaults($object, $metadata);
@@ -66,9 +67,10 @@ trait HandleMetadata
 
     /**
      * Filters the full fields array down to just the metadata fields
-     * removes the field prefix and sets the keys correctly for persisting to store
+     * removes the field prefix and sets the keys correctly for persisting to store.
      *
-     * @param  array  $fields
+     * @param array $fields
+     *
      * @return array
      */
     protected function getMetadataFields(array $fields)
@@ -86,13 +88,14 @@ trait HandleMetadata
     }
 
     /**
-     * Set default values on fields that require it
+     * Set default values on fields that require it.
      *
-     * @param  Model  $object
-     * @param  array  $fields
+     * @param \A17\Twill\Models\Contracts\TwillModelContract $object
+     * @param array                                          $fields
+     *
      * @return array
      */
-    protected function setFieldDefaults(Model $object, $fields)
+    protected function setFieldDefaults(TwillModelContract $object, $fields)
     {
         foreach ($this->withDefaultValues as $fieldName) {
             if (empty($fields[$fieldName])) {
@@ -105,11 +108,14 @@ trait HandleMetadata
     }
 
     /**
-     * @param $key
+     * Determine if the field belongs to the metadata.
+     *
+     * @param string $key
+     *
      * @return bool
      */
-    protected function isMetadataField($key)
+    protected function isMetadataField(string $key)
     {
-        return substr($key, 0, strlen($this->metadataFieldPrefix)) === $this->metadataFieldPrefix;
+        return Str::startsWith($key, $this->metadataFieldPrefix);
     }
 }
