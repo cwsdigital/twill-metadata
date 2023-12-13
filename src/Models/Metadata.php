@@ -105,7 +105,11 @@ class Metadata extends Model
 
         // For title, we'll use the fallback column and append the site title too.
         if ($columnName == 'title') {
-            $siteTitle = TwillAppSettings::getTranslated('seo.metadata.site_title');
+            $siteTitle = false;
+            try {
+                // Check if the default site title has been added at all in settings.
+                $siteTitle = TwillAppSettings::getTranslated('seo.metadata.site_title');
+            } catch(\Exception $e) {}
             return strip_tags($this->meta_describable->$fallbackColumnName).($siteTitle ? ' - '.$siteTitle : '');
         }
 
