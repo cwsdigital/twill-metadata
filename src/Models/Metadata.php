@@ -109,7 +109,9 @@ class Metadata extends Model
             try {
                 // Check if the default site title has been added at all in settings.
                 $siteTitle = TwillAppSettings::getTranslated('seo.metadata.site_title');
-            } catch(\Exception $e) {}
+            } catch (\Exception $e) {
+            }
+
             return strip_tags($this->meta_describable->$fallbackColumnName).($siteTitle ? ' - '.$siteTitle : '');
         }
 

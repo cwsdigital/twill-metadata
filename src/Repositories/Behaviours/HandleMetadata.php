@@ -17,9 +17,6 @@ trait HandleMetadata
 
     /**
      * Handle saving of metadata fields from form submission.
-     *
-     * @param \A17\Twill\Models\Contracts\TwillModelContract $object
-     * @param array                                          $fields
      */
     public function afterSaveHandleMetadata(TwillModelContract $object, array $fields)
     {
@@ -39,8 +36,6 @@ trait HandleMetadata
     /**
      * Prepares the metadata fields for the admin form view.
      *
-     * @param \A17\Twill\Models\Contracts\TwillModelContract $object
-     * @param array                                          $fields
      *
      * @return array
      */
@@ -69,7 +64,6 @@ trait HandleMetadata
      * Filters the full fields array down to just the metadata fields
      * removes the field prefix and sets the keys correctly for persisting to store.
      *
-     * @param array $fields
      *
      * @return array
      */
@@ -90,9 +84,7 @@ trait HandleMetadata
     /**
      * Set default values on fields that require it.
      *
-     * @param \A17\Twill\Models\Contracts\TwillModelContract $object
-     * @param array                                          $fields
-     *
+     * @param  array  $fields
      * @return array
      */
     protected function setFieldDefaults(TwillModelContract $object, $fields)
@@ -110,7 +102,6 @@ trait HandleMetadata
     /**
      * Determine if the field belongs to the metadata.
      *
-     * @param string $key
      *
      * @return bool
      */
