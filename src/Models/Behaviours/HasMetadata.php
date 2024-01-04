@@ -3,6 +3,9 @@
 namespace CwsDigital\TwillMetadata\Models\Behaviours;
 
 use A17\Twill\Facades\TwillAppSettings;
+use A17\Twill\Models\Behaviors\HasBlocks;
+use A17\Twill\Models\Behaviors\HasMedias;
+use CwsDigital\TwillMetadata\Models\Metadata;
 
 trait HasMetadata
 {
@@ -10,7 +13,7 @@ trait HasMetadata
 
     public function metadata()
     {
-        return $this->morphOne('CwsDigital\TwillMetadata\Models\Metadata', 'meta_describable');
+        return $this->morphOne(Metadata::class, 'meta_describable');
     }
 
     public function getSocialImageAttribute()
@@ -22,9 +25,9 @@ trait HasMetadata
         } elseif ($this->hasAnyImages()) {
             return $this->getDefaultMetadataFallbackImage();
         } else {
-            $hasMediaImage = TwillAppSettings::getGroupDataForSectionAndName('seo','metadata')->hasImage('default_social_image', 'default');
+            $hasMediaImage = TwillAppSettings::getGroupDataForSectionAndName('seo', 'metadata')->hasImage('default_social_image', 'default');
             if ($hasMediaImage) {
-                return TwillAppSettings::getGroupDataForSectionAndName('seo','metadata')->image('default_social_image', 'default');
+                return TwillAppSettings::getGroupDataForSectionAndName('seo', 'metadata')->image('default_social_image', 'default');
             }
         }
     }
@@ -33,10 +36,10 @@ trait HasMetadata
     {
         if (array_key_exists($key, $this->metadataFallbacks)) {
             return
-                ! empty($this->metadataFallbacks[$key]) &&
-                is_array($this->metadataFallbacks[$key]) &&
-                array_key_exists('role', $this->metadataFallbacks[$key]) &&
-                array_key_exists('crop', $this->metadataFallbacks[$key]);
+                ! empty($this->metadataFallbacks[$key])
+                && is_array($this->metadataFallbacks[$key])
+                && array_key_exists('role', $this->metadataFallbacks[$key])
+                && array_key_exists('crop', $this->metadataFallbacks[$key]);
         } else {
             return false;
         }
@@ -90,14 +93,14 @@ trait HasMetadata
 
     public function hasAnyMedias()
     {
-        $hasMedias = $this->usesTrait('A17\Twill\Models\Behaviors\HasMedias');
+        $hasMedias = $this->usesTrait(HasMedias::class);
 
         return $hasMedias ? $this->medias()->count() : 0;
     }
 
     public function hasAnyBlockMedias()
     {
-        $hasBlocks = $this->usesTrait('A17\Twill\Models\Behaviors\HasBlocks');
+        $hasBlocks = $this->usesTrait(HasBlocks::class);
 
         return $hasBlocks ? $this->blocks()->has('medias')->count() : 0;
     }
