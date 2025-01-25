@@ -21,7 +21,9 @@ trait SetsMetadata
             SEOTools::setDescription($metadata->field('description'));
         }
 
-        SEOTools::opengraph()->setTitle($metadata->field('og_title'));
+        if ($metadata->field('og_title')) {
+            SEOTools::opengraph()->setTitle($metadata->field('og_title'));
+        }
 
         if ($metadata->field('og_description')) {
             SEOTools::opengraph()->setDescription($metadata->field('og_description'));
