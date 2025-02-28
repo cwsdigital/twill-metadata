@@ -22,13 +22,12 @@ trait HasMetadata
             return $this->socialImage('og_image');
         } elseif ($this->hasSpecifiedMetaFallbackImage('og_image')) {
             return $this->getSpecifiedMetadataFallbackImage('og_image');
+        } else if (TwillAppSettings::getGroupDataForSectionAndName('seo', 'metadata')->hasImage('default_social_image', 'default')) {
+            return TwillAppSettings::getGroupDataForSectionAndName('seo', 'metadata')->image('default_social_image', 'default');
         } elseif ($this->hasAnyImages()) {
             return $this->getDefaultMetadataFallbackImage();
         } else {
-            $hasMediaImage = TwillAppSettings::getGroupDataForSectionAndName('seo', 'metadata')->hasImage('default_social_image', 'default');
-            if ($hasMediaImage) {
-                return TwillAppSettings::getGroupDataForSectionAndName('seo', 'metadata')->image('default_social_image', 'default');
-            }
+            return null;
         }
     }
 
